@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+
+        <title>Junior League Placement Helper</title>
+        <script type="text/javascript" src="papaparse.min.js"></script>
+        <script type="text/javascript" src="Rankings.js"></script>
+        <script>
+            const rankings = new PlacementRankings();
+
+            function ParseRoles (roleFile) {
+                return new Promise((resolve, reject) => {
+                    Papa.parse(roleFile, {
+                        skipEmptyLines: true,
+                        complete: function(result) {
+                            LoadRoles(result.data);
+                        }
+                    });
+                });
+            }
+
+            function ParseRankings(rankingFile){
+                return new Promise((resolve, reject) => {
+                    Papa.parse(rankingFile, {
+                        skipEmptyLines: true,
+                        complete: function(result) {
+                            rankings.loadRankings(result.data);
+                            DisplayRankings();
+                        }
+                    });
+                });
+            }
+
+            function LoadRoles(data){
+                rankings.loadRoles(data);
+                GetRankings();
+            }
+
+            function GetRankings() {
+                main.innerHTML = "<h2>Select List of Rankings </h2>"+
+                "<p>Should be in format: </p>"+
+                "<table><tr><td>Name</td><td>Position</td><td>Rank</td></tr></table>"+
+                "<p><input type='file' id='rankInput'></p>"+
+                "<button onclick='TriggerRankingInput()'>Load Files</button>";
+            }
+            function DisplayRankings() {
+                main.innerHTML = rankings.display();
+            }
+
+            // function AssignRole(name, coun, comm, pos) {
+            //     this.rankings.AssignPlacement(name,coun,comm,pos);
+            // }
+
+            function TriggerRoleInput() {
+                roleFile = roleInput.files[0];
+                if(roleFile==null){
+                    alert("Please select a file");
+                    return;
+                }
+                ParseRoles(roleFile);
+            }
+
+            function TriggerRankingInput() {
+                rankingFile = rankInput.files[0];
+                if(rankingFile==null){
+                    alert("Please select a file");
+                    return;
+                }
+                ParseRankings(rankingFile);
+            }
+
+            function Assign(name,placement) {
+                if(name=="" || placement==""){
+                    alert("Please select both a person and a placment");
+                    return;
+                }
+                rankings.assignPlacement(name, placement);
+                DisplayRankings();
+            }
+
+            function Remove(name) {
+                if(name==""){
+                    alert("Please select a person to remove the placment of");
+                    return;
+                }
+                rankings.removePlacement(name);
+                DisplayRankings();
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Junior League Placement Helper</h1>
+        <div id="main">
+            <h2>Upload List of Placements</h2>
+            <p>Should be in the format: </p>
+            <table><tr><td>Council</td><td>Committee</td><td>Position</td><td>Number of Spots</td></tr></table>
+            <p><input type="file" id="roleInput"></p>
+            <!--<h2>Select List of Rankings </h2>
+            <p>Should be in format: </p>
+            <table><tr><td>Name</td><td>Council</td><td>Committee</td><td>Position</td><td>Rank</td></tr></table>
+            <p><input type="file" id="rankInput"></p>-->
+            <button onclick="TriggerRoleInput()">Load File</button>
+            <!-- <hr>
+            <label for="cars">Choose a car:</label>
+            <select name="cars" id="cars">
+                <option value="volvo">Volvo</option>
+                <option value="saab">Saab</option>
+                <option value="opel">Opel</option>
+                <option value="audi">Audi</option>
+            </select>
+            <br><br>
+            <button onclick="alert(cars.options[cars.selectedIndex].text);">test
+            </button>
+
+            <button onclick="alert(cars.value);">test2
+            </button> -->
+        </div>
+    </body>
+</html>
