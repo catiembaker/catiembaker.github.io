@@ -38,7 +38,7 @@
             }
 
             function GetRankings() {
-                main.innerHTML = "<h2>Select List of Rankings </h2>"+
+                main.innerHTML = "<h2>Select List of Rankings as a CSV </h2>"+
                 "<p>Note: The names of the placement must match those in the position column from the previous page exactly (e.g. same capitialization and spelling). This website assumes that an individual only ranked 10 placements at most (less is fine) and that all names are unique.</p>"+
                 "<p>Should be in format (without the header row): </p>"+
                 "<table><tr><td>Name</td><td>Position</td><td>Rank</td></tr></table>"+
@@ -48,10 +48,6 @@
             function DisplayRankings() {
                 main.innerHTML = rankings.display();
             }
-
-            // function AssignRole(name, coun, comm, pos) {
-            //     this.rankings.AssignPlacement(name,coun,comm,pos);
-            // }
 
             function TriggerRoleInput() {
                 roleFile = roleInput.files[0];
@@ -93,7 +89,7 @@
     <body>
         <h1>Junior League Placement Helper</h1>
         <div id="main">
-            <h2>Upload List of Placements</h2>
+            <h2>Upload List of Placements As a CSV</h2>
             <p>Note: The names in the position column must be unique (e.g. don't call each vice chair placement just Vice Chair, but instead Committee Name Vice Chair. And do similar things for generic titles like coordinator, specialist, etc.)</p>
             <p>Should be in the format (without a header row): </p>
             <table><tr><td>Council</td><td>Committee</td><td>Position</td><td>Number of Spots</td></tr></table>
