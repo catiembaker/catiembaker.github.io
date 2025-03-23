@@ -298,9 +298,15 @@ class Role {
         for(let i = 1; i<=numShow; i++) {
             const ppl = this.getPeopleWithRanking(i);
             const pplPlacedElsewhere = this.getRemovedPeopleWithRanking(i);
-            str+="<td>"+Array.from(ppl).join("<br>");
-            str+="<s>"+Array.from(pplPlacedElsewhere).join("\n")+"</s>";
-            str += "</td>";
+			
+            str+="<td><ul>";
+			for(const n of ppl){
+				str+="<li>"+n+"</li>";
+			}
+			for(const n2 of pplPlacedElsewhere){
+				str+="<li><s>"+n2+"</s></li>";
+			}
+            str += "</ul></td>";
         }
         str+="</tr>";
         return str;   
