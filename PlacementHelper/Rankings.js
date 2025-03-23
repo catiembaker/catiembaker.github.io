@@ -64,6 +64,21 @@ class PlacementRankings {
         this.display();
     }
 
+	getCSVPlacements() {
+		let csv_data = "";
+		for (const entry of this.placements) {
+			for(const per of entry.getFilled()){
+				csv_data+='"'+entry.getPosition()+'","'+per+'"\n';
+			}
+			if(entry.spotsAvailable()>0){
+				for(let i = 0; i<entry.spotsAvailable(); i++){
+					csv_data+='"'+entry.getPosition()+'", \n';
+				}
+			}
+        }
+		return csv_data;
+	}
+
     display() {
         let str = "";
         for (const key of this.structure.keys()){
@@ -74,6 +89,7 @@ class PlacementRankings {
         	});
         }
 		str+=this.getDropDowns();
+		str+=this.getDownload();
         return str;
     }
 
@@ -99,6 +115,12 @@ class PlacementRankings {
         }
 		str+='</select></p>';
 		str+='<p><button onclick="Remove(pers.value)">Remove Placement</button></p>';
+		return str;
+	}
+
+	getDownload() {
+		let str = "<h2>Download Placement Assignments</h2>";
+		str+='<p><button onclick="DownloadCSVFile()">Download Placement Assignments</button></p>';
 		return str;
 	}
 

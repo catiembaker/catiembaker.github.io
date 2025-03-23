@@ -84,6 +84,33 @@
                 rankings.removePlacement(name);
                 DisplayRankings();
             }
+
+            function DownloadCSVFile() {
+                csv_data = rankings.getCSVPlacements();
+                // Create CSV file object and feed
+                // our csv_data into it
+                CSVFile = new Blob([csv_data], {
+                    type: "text/csv"
+                });
+
+                // Create to temporary link to initiate
+                // download process
+                let temp_link = document.createElement('a');
+
+                // Download csv file
+                temp_link.download = "placements.csv";
+                let url = window.URL.createObjectURL(CSVFile);
+                temp_link.href = url;
+
+                // This link should not be displayed
+                temp_link.style.display = "none";
+                document.body.appendChild(temp_link);
+
+                // Automatically click the link to
+                // trigger download
+                temp_link.click();
+                document.body.removeChild(temp_link);
+            }
         </script>
     </head>
     <body>
