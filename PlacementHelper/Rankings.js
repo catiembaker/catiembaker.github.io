@@ -80,7 +80,11 @@ class PlacementRankings {
 	}
 
     display() {
-        let str = "";
+        let str = '<p>Color Guide</p><ul>';
+		str+='<li style="background-color: lightgray;">Light Grey = Placement Full</li>';
+		str+='<li style="background-color: yellow;">Yellow = Num Applicants left is the exact number needed</li>';
+		str+='<li style="background-color: lightcoral;">Light Red = Not enough applicants left to fill the placement</li>';
+        str+='</ul>';
         for (const key of this.structure.keys()){
             str+="<h2>"+key+"</h2>"
 			let committees = this.getCommittees(key);
@@ -282,6 +286,12 @@ class Role {
         let str = "<tr";
 		if(this.spotsAvailable()<=0){
 			str+= " style='background-color: lightgray;'"
+		}
+		else if(this.spotsAvailable()==this.numInterested()){
+			str += " style='background-color: yellow;'"
+		}
+		else if(this.spotsAvailable()>this.numInterested()){
+			str += " style='background-color: lightcoral;'"
 		}
 		str+="><td>"+this.position+"</td>";
 		let count = 1;
